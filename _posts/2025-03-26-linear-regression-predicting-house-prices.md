@@ -547,7 +547,7 @@ print(f"Test MSE: {test_mse}")
 
 
     
-![png](assets\img\posts\linear-regression-predicting-house-prices\output_12_0.png)
+![png](..\assets\img\posts\linear-regression-predicting-house-prices\output_12_0.png)
     
 
 
@@ -594,7 +594,7 @@ plt.show()
 
 
     
-![png](assets\img\posts\linear-regression-predicting-house-prices\output_13_0.png)
+![png](..\assets\img\posts\linear-regression-predicting-house-prices\output_13_0.png)
     
 
 
@@ -688,6 +688,6 @@ plt.show()
 
 
     
-![png](assets\img\posts\linear-regression-predicting-house-prices\output_15_1.png)
+![png](..\assets\img\posts\linear-regression-predicting-house-prices\output_15_1.png)
     
 
