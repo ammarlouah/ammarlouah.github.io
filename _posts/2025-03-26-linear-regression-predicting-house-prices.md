@@ -7,7 +7,7 @@ tags: [Projects,ML,scikit-learn,from-scratch]
 
 ## Introduction
 
-Bellow is my notebook from Kaggle for my project on implementing Linear Regression from scratch for Predicting House Prices and comparing it to scikit-learn predefined one.\
+Bellow is my [notebook from Kaggle](https://www.kaggle.com/code/ammarlouah/linear-regression-predicting-house-prices) for my project on implementing Linear Regression from scratch for Predicting House Prices and comparing it to scikit-learn predefined one.\
 Enjoy!
 
 ## Notebook
