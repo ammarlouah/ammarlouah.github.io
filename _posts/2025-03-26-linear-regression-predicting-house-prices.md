@@ -2,7 +2,7 @@
 title: "Implementing Linear Regression for Predicting House Prices (From Scratch)"
 date: 2025-03-26
 categories: [Projects,Machine Learning]
-tags: [Projects,ML,scikit-learn,from-scratch]
+tags: [Projects,ML,scikit-learn,from-scratch,linear-regression]
 ---
 
 ## Introduction
