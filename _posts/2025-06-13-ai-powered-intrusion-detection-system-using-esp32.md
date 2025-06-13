@@ -5,7 +5,7 @@ categories: [Projects,Edge AI,Iot,Security]
 tags: [Projects,Edge AI,Iot,ESP32,Security]
 ---
 
-# Introduction
+## Introduction
 
 In today’s hyper-connected world, the Internet of Things (IoT) has transformed how we interact with technology, from smart home devices to industrial sensors. However, this connectivity comes with a significant challenge: **security**. \
 IoT devices are increasingly targeted by cyberattacks, such as UDP flood attacks, which can overwhelm and disrupt their functionality. We developed an AI-powered intrusion detection system (IDS) to address this issue. Our project leverages Edge AI to detect UDP flood attacks in real-time using two ESP32 microcontrollers, ensuring low-latency, efficient, and lightweight security for IoT environments.
@@ -18,15 +18,15 @@ All the code, datasets, and resources are available in our GitHub repository [AI
 
 Whether you’re an IoT enthusiast, an AI practitioner, or a cybersecurity buff, this article will give you a detailed look at how we brought Edge AI to IoT security.
 
-# System Architecture
+## System Architecture
 
 The architecture of our system is designed to operate efficiently on resource-constrained IoT devices while ensuring real-time detection and alerting for UDP flood attacks. The system leverages two ESP32 microcontrollers, each with distinct roles, working in tandem to capture, analyze, and respond to network traffic. Below, we break down the components and their interactions, highlighting how they collaborate to achieve robust security.
 
-# System Architecture
+## System Architecture
 
 The architecture of our system is designed to operate efficiently on resource-constrained IoT devices while ensuring real-time detection and alerting for UDP flood attacks. The system leverages two ESP32 microcontrollers, each with distinct roles, working in tandem to capture, analyze, and respond to network traffic. Below, we break down the components and their interactions, highlighting how they collaborate to achieve robust security.
 
-## ESP32 A: Sniffer and Classifier
+### ESP32 A: Sniffer and Classifier
 
 The first ESP32, referred to as **ESP32 A**, serves as the primary data collection and analysis unit. Its role is to capture Wi-Fi packets, extract relevant features, and classify traffic as either "normal" or "UDP flood" using a machine learning model. Here’s how it works:
 
@@ -39,7 +39,7 @@ The first ESP32, referred to as **ESP32 A**, serves as the primary data collecti
 - **Classification**: The extracted features are fed into a neural network model, trained using Edge Impulse, to classify the traffic. The model outputs a prediction label ("normal" or "UDP flood") along with a confidence score (e.g., 0.95 for UDP flood). The model is optimized for the ESP32’s limited computational resources, ensuring fast inference.
 - **Communication**: After classification, ESP32 A sends the prediction results to ESP32 B via a UART interface (TX pin on GPIO17 of ESP32 A to RX pin on GPIO16 of ESP32 B). The data is transmitted in a simple format, such as `PRED:udp_flood,0.95`, ensuring reliable and low-latency communication.
 
-## ESP32 B: Alert System
+### ESP32 B: Alert System
 
 The second ESP32, **ESP32 B**, acts as the alert and notification hub. It processes the predictions from ESP32 A and triggers alerts when an attack is detected. Its key responsibilities include:
 
@@ -48,17 +48,17 @@ The second ESP32, **ESP32 B**, acts as the alert and notification hub. It proces
 - **Alert Mechanism**: If at least 6 out of the 10 predictions in the sliding window indicate a "UDP flood" attack, ESP32 B sends an alert message via Telegram. The message, sent through a pre-configured Telegram bot to a specified chat, reads: **"UDP flood detected by ESP2!"**. This threshold (≥ 6/10) balances sensitivity and reliability, ensuring alerts are triggered only when there’s strong evidence of an attack.
 - **Error Handling**: ESP32 B is programmed to handle potential communication errors over UART, such as missing or corrupted predictions, ensuring the system remains operational even in noisy environments.
 
-## System Integration
+### System Integration
 
 The two ESP32s communicate seamlessly via UART, creating a modular and scalable architecture. ESP32 A focuses on computationally intensive tasks (packet capture and classification), while ESP32 B handles external communication and alerting. This division of labor optimizes resource usage, as each microcontroller is tailored to its specific role. The use of UART for inter-device communication ensures low-latency, reliable data transfer, critical for real-time operation.
 
 The system is designed to be lightweight, running entirely on edge devices without reliance on cloud infrastructure. This makes it suitable for IoT deployments where internet connectivity may be intermittent or where low latency is critical. The architecture also allows for future scalability, such as adding more ESP32 units to monitor multiple devices or integrating additional attack detection models.
 
-# Data Collection
+## Data Collection
 
 The success of our system hinges on a high-quality dataset that captures the nuances of both normal and malicious network traffic. To train our neural network model to detect UDP flood attacks, we collected data using ESP32 A, one of our two ESP32 microcontrollers, and simulated realistic attack scenarios. This section outlines the setup, features extracted, scenarios (including the attack simulation using Kali Linux), data logging process, and the resulting dataset.
 
-## Setup for Data Collection
+### Setup for Data Collection
 
 We configured **ESP32 A** to capture Wi-Fi packets in **promiscuous mode**, enabling it to intercept all Wi-Fi packets within its range, regardless of their destination. This mode is ideal for network monitoring, as it allows comprehensive traffic analysis without requiring the ESP32 to join the network.
 
@@ -66,7 +66,7 @@ We configured **ESP32 A** to capture Wi-Fi packets in **promiscuous mode**, enab
 - **Network Environment**: Data collection occurred in a controlled Wi-Fi network, including a target device and other devices generating background traffic.
 - **Filtering**: To focus on the target device, we filtered packets based on its MAC address, reducing noise from unrelated devices in the network.
 
-## Features Extracted
+### Features Extracted
 
 For each **1-second window**, ESP32 A computed a set of features to characterize the captured traffic. These features were selected to highlight differences between normal traffic and UDP flood attacks, which typically involve a high volume of small, rapid packets. The extracted features were:
 
@@ -83,7 +83,7 @@ For each **1-second window**, ESP32 A computed a set of features to characterize
 
 These features were calculated in real-time by ESP32 A, leveraging its processing capabilities to handle high packet volumes.
 
-## Simulated Scenarios
+### Simulated Scenarios
 
 We collected data under two scenarios to create a comprehensive dataset:
 
@@ -110,7 +110,7 @@ We collected data under two scenarios to create a comprehensive dataset:
    - **Data Volume**: We collected **500 rows** of data, each representing a 1-second window during the attack.
    - **Purpose**: To capture the characteristics of malicious traffic, such as high packet volume, small packet sizes, and reduced inter-arrival times.
 
-## Data Logging
+### Data Logging
 
 To store the data for model training, we implemented a robust logging mechanism:
 
@@ -121,7 +121,7 @@ To store the data for model training, we implemented a robust logging mechanism:
 - **Balanced Dataset**: To ensure a balanced dataset for training, we created a final dataset of **1000 rows** by selecting all 500 rows of UDP flood data and randomly sampling 500 rows from the 1000 rows of normal traffic. This resulted in **500 normal** and **500 udp_flood** rows, ensuring equal representation of both classes.
 - **Validation**: We inspected the CSV files to verify data integrity, checking for missing values, outliers, or inconsistencies in feature calculations.
 
-## Challenges and Solutions
+### Challenges and Solutions
 
 Data collection presented several challenges, which we addressed systematically:
 
@@ -129,18 +129,18 @@ Data collection presented several challenges, which we addressed systematically:
 - **ESP32 Resource Constraints**: The ESP32’s limited memory and processing power required optimized code to process packets in real-time, especially during high-traffic UDP flood scenarios. We streamlined feature calculations to prevent data loss.
 - **Realistic Attack Simulation**: The `hping3` command was carefully configured to replicate real-world UDP flood attacks. Randomizing source IPs (`--rand-source`) ensured the simulation mimicked distributed attacks, while targeting port 53 added realism, as it’s a common attack vector.
 
-## Outcome
+### Outcome
 
 The data collection phase produced a robust dataset:
 
 - **Raw Data**: 1000 rows of normal traffic and 500 rows of UDP flood traffic.
 - **Balanced Dataset**: 1000 rows total (500 normal, 500 udp_flood), saved as CSV files for preprocessing and model training. This dataset captured the essential characteristics of both traffic types, providing a solid foundation for developing our model.
 
-# Model Training
+## Model Training
 
 Using the Edge Impulse platform, we transformed our collected dataset into a neural network model optimized for deployment on the resource-constrained ESP32 microcontroller. This section details the preprocessing, model design, training process, and evaluation, leveraging the insights from our Edge Impulse project (available at https://studio.edgeimpulse.com/public/698375/live).
 
-## Data Preprocessing
+### Data Preprocessing
 
 Before training, we preprocessed the dataset collected from ESP32 A to ensure it was suitable. The raw dataset consisted of **1000 rows** of normal traffic and **500 rows** of UDP flood traffic, each row representing features extracted over a 1-second window. The features included `timestamp`, `duration_ms`, `total_pkts`, `target_pkts`, `pkt_ratio`, `bytes_total`, `avg_pkt_size`, `unique_MACs`, `mean_IAT_us`, and `IAT_variance`.
 
@@ -161,7 +161,7 @@ Before training, we preprocessed the dataset collected from ESP32 A to ensure it
 
   - We split the dataset into **80% training** (800 samples) and **20% testing** (200 samples) to evaluate model performance on unseen data.
 
-## Model Design
+### Model Design
 
 In Edge Impulse, we designed a neural network tailored for the ESP32’s limited computational resources. The model was part of an **Impulse**, which is Edge Impulse’s pipeline for processing and learning (https://docs.edgeimpulse.com/docs/impulses). 
 
@@ -176,7 +176,7 @@ The Impulse consisted of:
 
 This architecture was chosen for its balance between expressiveness (to model the traffic patterns) and efficiency (to run on the ESP32). The model’s compact size ensured it could fit within the ESP32’s memory constraints.
 
-## Training Process
+### Training Process
 
 The model was trained using Edge Impulse’s cloud-based training environment, which optimized hyperparameters for edge devices:
 
@@ -185,7 +185,7 @@ The model was trained using Edge Impulse’s cloud-based training environment, w
 
 During training, Edge Impulse provided real-time metrics, including accuracy.
 
-## Model Evaluation
+### Model Evaluation
 
 After training, the model achieved an impressive **98.99% accuracy** on the test set (200 samples), as reported by Edge Impulse. Key evaluation metrics included:
 
@@ -196,7 +196,7 @@ After training, the model achieved an impressive **98.99% accuracy** on the test
 
 The high accuracy was attributed to the clear separation between normal and attack traffic in the feature space, as visualized in Edge Impulse’s feature explorer (available in the project dashboard at https://studio.edgeimpulse.com/public/698375/live).
 
-## Model Export
+### Model Export
 
 Once trained, the model was exported as an **Arduino library** compatible with the ESP32. Edge Impulse’s deployment tool optimized the model for the ESP32’s microcontroller environment, converting it to a format that could be integrated into the Arduino IDE. The exported library included:
 
@@ -206,24 +206,24 @@ Once trained, the model was exported as an **Arduino library** compatible with t
 
 This **Arduino library** was later integrated, enabling real-time classification of network traffic, as described in the deployment section.
 
-## Challenges and Solutions
+### Challenges and Solutions
 
 Training the model presented a few challenges:
 
 - **Feature Selection**: Choosing the right features was critical. We initially considered all 10 features but found that `target_pkts`, `pkt_ratio`, and `avg_pkt_size` provided the best discriminative power, reducing model complexity without sacrificing accuracy.
 - **Edge Constraints**: We kept the model small (two dense layers, 30 total neurons) to ensure it could run efficiently on the ESP32, which has limited memory and processing power.
 
-## Outcome
+### Outcome
 
 The training phase resulted in a highly accurate (98.99%) neural network model, optimized for deployment on ESP32 A. The model effectively distinguished normal traffic from UDP flood attacks, leveraging the three key features to achieve robust performance. The Edge Impulse platform streamlined the process, from data upload to model export, making it accessible for edge AI development. The trained model was ready for integration into our system, as detailed in the deployment section.
 
-# Deployment on ESP32
+## Deployment on ESP32
 
 After training the neural network model in Edge Impulse with high accuracy, we deployed it in the ESP32. 
 
 **ESP32 A** handles packet sniffing, feature extraction, and inference, while **ESP32 B** processes predictions and sends Telegram alerts. This section details the deployment process, based on the provided firmware for both devices, including model integration, UART communication, and alert mechanisms.
 
-## Exporting the Model
+### Exporting the Model
 
 The trained model was exported from Edge Impulse as an **Arduino library**, optimized for the ESP32:
 
@@ -231,7 +231,7 @@ The trained model was exported from Edge Impulse as an **Arduino library**, opti
 - **Export Process**: Using Edge Impulse’s “Arduino Library” deployment option, we downloaded a `.zip` file, which was imported into the Arduino IDE for use in ESP32 A’s firmware.
 - **Efficiency**: The model is lightweight, fitting within the ESP32’s memory constraints and executing inference quickly for real-time operation.
 
-## Deploying on ESP32 A: Sniffer and Classifier
+### Deploying on ESP32 A: Sniffer and Classifier
 
 **ESP32 A** captures Wi-Fi packets, computes features, runs the Edge Impulse model, and sends predictions to ESP32 B via UART. Here’s how it was implemented:
 
@@ -253,7 +253,7 @@ The trained model was exported from Edge Impulse as an **Arduino library**, opti
   - Resets counters after each window to prepare for the next cycle.
   - Logs activity to `Serial` for debugging.
 
-## Deploying on ESP32 B: Alert System
+### Deploying on ESP32 B: Alert System
 
 **ESP32 B** receives predictions, analyzes them with a sliding window, and sends Telegram alerts when a UDP flood is detected. Here’s the deployment breakdown:
 
@@ -280,7 +280,7 @@ The trained model was exported from Edge Impulse as an **Arduino library**, opti
   - Limits `incomingBuffer` to 200 characters to prevent overflow.
   - Logs errors (e.g., `ERR:` messages) to `Serial`.
 
-## Integration and Testing
+### Integration and Testing
 
 - **UART Communication**: ESP32 A (TX on GPIO17) sends predictions to ESP32 B (RX on GPIO16) at 115200 baud, ensuring reliable one-way data transfer.
 - **Testing**: Validated with simulated UDP floods:
@@ -288,12 +288,12 @@ The trained model was exported from Edge Impulse as an **Arduino library**, opti
   - ESP32 B tracked predictions, triggered alerts when `floodCount >= 6`, and cleared them when conditions normalized.
 - **Robustness**: Handled high packet rates and maintained real-time performance.
 
-# Testing and Results
+## Testing and Results
 
 <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
     <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/EU13Hn265dQ" frameborder="0" allowfullscreen></iframe>
 </div>
 
-# Conclusion
+## Conclusion
 
 In summary, this project successfully demonstrated the development and deployment of the system. By integrating NN model directly onto resource-constrained edge devices, we achieved remarkable accuracy in detecting UDP flood attacks in real-time. The implementation of an efficient alerting mechanism, utilizing Telegram for immediate notifications, further enhances the system's practicality and responsiveness. This work underscores the transformative potential of edge AI in bolstering IoT security, paving the way for safer and more reliable connected environments. Looking ahead, future research could focus on expanding the system’s detection capabilities to address a broader range of cyber threats or optimizing it for even lower power consumption, ensuring its viability across diverse IoT applications.
