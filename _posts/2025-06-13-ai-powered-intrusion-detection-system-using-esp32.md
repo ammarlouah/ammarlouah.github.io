@@ -1,6 +1,6 @@
 ---
 title: "AI Powered Intrusion Detection System Using ESP32 and Edge Impulse."
-date: 2025-03-29
+date: 2025-06-13
 categories: [Projects,Edge AI,Iot,Security]
 tags: [Projects,Edge AI,Iot,ESP32,Security]
 ---
