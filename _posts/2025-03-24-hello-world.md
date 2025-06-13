@@ -12,4 +12,15 @@ Here, I'll share everything related to me, my projects, learnings, and everythin
 I hope you enjoy the content. See you soon!
 
 ¡Disfruten!
+
+<p>Visitor count: <span id="visitor-count"></span></p>
+
+<script>
+  fetch('https://api.countapi.xyz/update/ammar_blog/welcome?amount=1')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visitor-count').innerText = data.value;
+    });
+</script>
+
 ---
