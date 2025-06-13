@@ -22,10 +22,6 @@ Whether you’re an IoT enthusiast, an AI practitioner, or a cybersecurity buff,
 
 The architecture of our system is designed to operate efficiently on resource-constrained IoT devices while ensuring real-time detection and alerting for UDP flood attacks. The system leverages two ESP32 microcontrollers, each with distinct roles, working in tandem to capture, analyze, and respond to network traffic. Below, we break down the components and their interactions, highlighting how they collaborate to achieve robust security.
 
-## System Architecture
-
-The architecture of our system is designed to operate efficiently on resource-constrained IoT devices while ensuring real-time detection and alerting for UDP flood attacks. The system leverages two ESP32 microcontrollers, each with distinct roles, working in tandem to capture, analyze, and respond to network traffic. Below, we break down the components and their interactions, highlighting how they collaborate to achieve robust security.
-
 ### ESP32 A: Sniffer and Classifier
 
 The first ESP32, referred to as **ESP32 A**, serves as the primary data collection and analysis unit. Its role is to capture Wi-Fi packets, extract relevant features, and classify traffic as either "normal" or "UDP flood" using a machine learning model. Here’s how it works:
