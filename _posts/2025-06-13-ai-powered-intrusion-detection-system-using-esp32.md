@@ -289,24 +289,9 @@ The trained model was exported from Edge Impulse as an **Arduino library**, opti
 - **Robustness**: Handled high packet rates and maintained real-time performance.
 
 # Testing and Results
-<style>
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-}
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-</style>
-<div class="video-container">
-    <iframe src="https://www.youtube.com/embed/EU13Hn265dQ" frameborder="0" allowfullscreen></iframe>
+<div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/EU13Hn265dQ" frameborder="0" allowfullscreen></iframe>
 </div>
 
 # Conclusion
