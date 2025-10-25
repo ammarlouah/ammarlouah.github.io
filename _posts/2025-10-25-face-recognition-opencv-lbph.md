@@ -5,7 +5,7 @@ categories: [Projects, Computer Vision, AI]
 tags: [Projects, OpenCV, Face Recognition, LBPH, Python]
 ---
 
-# LBPH Face Recognition with OpenCV — An approachable end-to-end article
+# LBPH Face Recognition with OpenCV
 
 Face recognition is an accessible entry point to computer vision: it combines classic image processing, dataset curation, and straightforward model training. This project demonstrates a compact, practical pipeline built with OpenCV's LBPH (Local Binary Patterns Histograms) recognizer. This article explains the motivation, the ideas behind each stage, and how the pieces connect, so you can reproduce it or use it as a learning resource.
 
